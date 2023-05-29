@@ -48,10 +48,12 @@ export default class Notifier extends Component {
       var state = curValue ? {
         hooks: curValue,
         currentHook: data,
-        currentKey: key
+        currentKey: key,
+        isDelete: false
       } : {
         currentHook: data,
-        currentKey: key
+        currentKey: key,
+        isDelete: false
       }
       this.setState(state);
     }
@@ -76,7 +78,14 @@ export default class Notifier extends Component {
     });
     let delHook = hooks.find((val, index) => index === key);
     this.handleClick(0, currHooks[0], currHooks);
-    delHook._id && await axios.post(`/api/plugin/fine/notifier/del?id=${delHook._id}&project_id=${this.props.projectId}`);
+    if (delHook._id) {
+      try {
+        await axios.post(`/api/plugin/fine/notifier/del?id=${delHook._id}&project_id=${this.props.projectId}`);
+        this.state.isDelete= true
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 
   enterItem = key => {
@@ -126,11 +135,14 @@ export default class Notifier extends Component {
   };
 
   render() {
-    const { hooks, currentKey } = this.state;
+    const { hooks, currentKey,isDelete } = this.state;
 
     let notifierNames = [];
 
     const hookSettingItems = hooks.map((item, index) => {
+      if (isDelete) {
+        return null;
+      }
       index !== currentKey && notifierNames.push(item.notifier_name);
       return (
         <Row
