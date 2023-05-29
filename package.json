@@ -26,6 +26,7 @@
   "author": "congqiu",
   "license": "ISC",
   "dependencies": {
+    "https": "^1.0.0",
     "turndown": "^7.0.0"
   },
   "publishConfig": {

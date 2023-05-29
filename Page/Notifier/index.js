@@ -73,7 +73,7 @@ export default class Add extends Component {
       if (!err) {
         let assignValue = Object.assign(params, values);
         let result = await axios.post("/api/plugin/fine/notifier/test", assignValue);
-        if (result.data.errcode === 0 && result.data.data && result.data.data.errcode === 0) {
+        if (result.data.errcode === 0 && result.data.data && (result.data.data.errcode === 0 || result.data.data.code === 0)) {
           message.success("消息已发送");
         } else if (result.data.errcode === 0 && result.data.data) {
           message.error("发送失败：" + result.data.data.errmsg);

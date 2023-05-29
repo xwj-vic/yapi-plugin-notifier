@@ -1,4 +1,5 @@
 const axios = require("axios");
+const https = require('https');
 const crypto = require('crypto');
 const { TYPE } = require("./const");
 
@@ -29,12 +30,15 @@ exports.sendWebhook = async (url, content, data) => {
 };
 
 exports.sendSeaTalkWebhook = async (url, content, data) => {
+  const agent = new https.Agent({
+    rejectUnauthorized: false
+  });
   return await axios.post(url, {
     "tag": "markdown",
     "markdown": {
-      "content": "<mention-tag target=\"seatalk://user?id=0\"/>" + content + ":\n\n" + data,
+      "content": '<mention-tag target="seatalk://user?id=0"/>' + content + ':\n\n' + data,
     }
-  });
+  },{ httpsAgent: agent });
 };
 
 exports.inferNotifierType = url => {
