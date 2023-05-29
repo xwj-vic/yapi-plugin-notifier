@@ -28,12 +28,24 @@ exports.sendWebhook = async (url, content, data) => {
   });
 };
 
+exports.sendSeaTalkWebhook = async (url, content, data) => {
+  return await axios.post(url, {
+    "tag": "markdown",
+    "markdown": {
+      "content": "<mention-tag target=\"seatalk://user?id=0\"/>" + content + ":\n\n" + data,
+    }
+  });
+};
+
 exports.inferNotifierType = url => {
   if (url.trim().indexOf("https://qyapi.weixin.qq.com") === 0) {
     return TYPE.WW;
   }
   if (url.indexOf("https://oapi.dingtalk.com/robot/send") === 0) {
     return TYPE.DINGTALK;
+  }
+  if (url.indexOf("https://openapi.seatalk.io/webhook/group") === 0) {
+    return TYPE.SEATALK;
   }
   return TYPE.WEBHOOK;
 }
