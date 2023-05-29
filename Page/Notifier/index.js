@@ -166,7 +166,7 @@ export default class Add extends Component {
                 ],
                 validateTrigger: "onBlur",
                 initialValue: this.state.notifier_data.hook
-              })(<Input placeholder="企业微信、钉钉机器人完整地址或自定义webhook的地址" />)}
+              })(<Input placeholder="企业微信、钉钉机器人、SeaTalk机器人完整地址或自定义webhook的地址" />)}
             </FormItem>
 
             <FormItem {...formItemLayout}
